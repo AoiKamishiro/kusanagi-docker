@@ -5,6 +5,8 @@
 ${WSL1_BUILD}
 ${WSL1_CONTEXTS}
     user: "1000:1001"
+    environment:
+      - WP_CLI_CACHE_DIR=/tmp/.wp-cli/cache
     env_file:
       - .kusanagi
       - .kusanagi.wp

@@ -1,0 +1,34 @@
+FROM alpine:latest
+
+# 必要なツールをインストール
+RUN apk add --no-cache \
+    bash \
+    git \
+    sed \
+    gawk \
+    grep \
+    gettext \
+    curl \
+    docker-cli \
+    docker-cli-compose \
+    python3 \
+    openssl
+
+# ローカルのkusanagi-dockerファイルをコピー
+COPY bin /root/.kusanagi/bin
+COPY lib /root/.kusanagi/lib
+COPY update_version.sh /root/.kusanagi/update_version.sh
+
+# image_versionsファイルを生成
+RUN cd /root/.kusanagi && bash update_version.sh
+
+# Gitの設定
+RUN git config --global user.email "kusanagi@example.com" && \
+    git config --global user.name "KUSANAGI Docker"
+
+ENV PATH="/root/.kusanagi/bin:${PATH}"
+
+WORKDIR /workspace
+
+ENTRYPOINT ["kusanagi-docker"]
+CMD ["--help"]

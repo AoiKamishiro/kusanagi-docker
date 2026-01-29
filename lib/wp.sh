@@ -30,7 +30,8 @@ fi
 if (df . | awk 'END { print $1}' | grep / > /dev/null) ; then
 	# WSL1以外
 	WSL1_BUILD="    image: $WPCLI_IMAGE"
-	WSL_INI="- ./.wp_mysqli.ini:/usr/local/etc/php/conf.d/wp_mysqli.ini"
+	# 変数を展開して文字列として設定
+	WSL_INI="- ${HOST_PROFILE_DIR}/.wp_mysqli.ini:/usr/local/etc/php/conf.d/wp_mysqli.ini"
 else
 	# WSL1
 	WSL1_BUILD="    build:"

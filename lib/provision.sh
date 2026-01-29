@@ -680,6 +680,15 @@ EOF
 #		 (k_print_error "$DBHOST $(eval_gettext "is cannot connect.")" && return 1)
 	fi
 
+	# ホストの絶対パスを計算してエクスポート
+	# kusanagi-shell.shから渡されたHOST_WORKSPACE_DIRを使用
+	if [ -n "$HOST_WORKSPACE_DIR" ]; then
+		export HOST_PROFILE_DIR="$HOST_WORKSPACE_DIR/$PROFILE"
+	else
+		# 直接実行された場合（コンテナ外）
+		export HOST_PROFILE_DIR="$(pwd)/$PROFILE"
+	fi
+
 	k_target $PROFILE
 	cd $PROFILE
 	[[ -f "$LIBDIR/$APP.sh" ]] || (k_print_error "$APP $(eval_gettext "is not implemented.")" && return 1)
