@@ -120,7 +120,7 @@ function k_content() {
 	fi
 	case $_cmd in
 	pull|backup)
-		k_configcmd $BASEDIR tar cf $PROFILE.tar . 2>&1 > /dev/null
+		k_configcmd $BASEDIR tar cf $PROFILE.tar --exclude=$PROFILE.tar . 2>&1 > /dev/null
 		docker cp ${PROFILE}_php:$BASEDIR/$PROFILE.tar .
 		k_configcmd $BASEDIR rm $BASEDIR/$PROFILE.tar
 		tar xf $PROFILE.tar -C "$CONTENTDIR"
