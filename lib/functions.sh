@@ -299,7 +299,16 @@ function k_nginx() {
 	k_print_error "$1 $(eval_gettext "is not implemented.")"
 }
 function k_update() {
-	k_print_error "$1 $(eval_gettext "is not implemented.")"
+	shift
+	echo "Updating KUSANAGI Docker image versions..."
+	if [ -f "$KUSANAGIDIR/update_version.sh" ]; then
+		bash "$KUSANAGIDIR/update_version.sh"
+		echo "Image versions updated successfully."
+		echo "Updated image_versions file: $KUSANAGIDIR/lib/image_versions"
+	else
+		k_print_error "update_version.sh not found in $KUSANAGIDIR"
+		return 1
+	fi
 }
 
 function k_check_file() {
